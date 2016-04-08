@@ -1,3 +1,6 @@
 [submodule "PEGTL"]
 	path = PEGTL
 	url = https://github.com/ColinH/PEGTL.git
+[submodule "PEGTL.wiki"]
+	path = PEGTL.wiki
+	url = https://github.com/ColinH/PEGTL.wiki.git
