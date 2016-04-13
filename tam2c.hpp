@@ -9,25 +9,9 @@
 namespace tam2c
 {
     using int_type = size_t;
-
-    struct tag : public std::unique_ptr<std::string>
-    {
-        using type = std::unique_ptr<std::string>;
-        using type::unique_ptr;
-
-        void operator=(const std::string& value)
-        { type::operator=(std::make_unique<std::string>(value)); };
-
-        bool operator==(const std::string& value)
-        { return (this->get()) && (value == *(this->get())); }
-
-        bool operator!=(const std::string& value)
-        { return (this->get()) && (value != *(this->get())); }
-    };
-
     template<typename t_op>
         struct op
-        { tag label; };
+        { std::string label; };
 }
 
 #include "tamop.hpp"

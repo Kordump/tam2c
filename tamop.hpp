@@ -1,6 +1,7 @@
 #ifndef TAM2C_GUARD_TAMOP_HPP
 #define TAM2C_GUARD_TAMOP_HPP
 
+#include <string>
 #include "tam2c.hpp"
 
 namespace tam2c
@@ -33,11 +34,11 @@ namespace tam2c
 
         // JUMP etiq
         struct jump_label : public op<jump_label>
-        { tag etiq; };
+        { std::string etiq; };
 
         // JUMPIF (n) etiq
         struct jumpif_label : public op<jumpif_label>
-        { int_type n; tag etiq; };
+        { int_type n; std::string etiq; };
 
         // JUMP d[r]
         struct jump_addr : public op<jump_addr>
