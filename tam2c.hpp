@@ -26,67 +26,28 @@ namespace tam2c
     };
 
     template<typename t_op>
-    struct op
-    { tag label; };
+        struct op
+        { tag label; };
 }
 
 #include "tamop.hpp"
 
 namespace tam2c
 {
-   namespace grammar
-   {
+    namespace grammar
+    {
+
         using namespace pegtl;
 
-        // Comments.
-        //  - comment{;.*$}
         struct comment
             : if_must<one<';'>, until<eolf>>
-        { };
-
-        struct g_push
-            : seq<
-                string<P, U, S, H>, plus<space>,
-                plus<digit>>
-        { };
-
-        struct g_pop
-            : seq<
-                string<P, O, P>, plus<space>,
-                one<'('>, plus<digit>, one<')'>, plus<space>,
-                plus<digit>>
-        { };
-
-        struct g_op
-            : sor<g_push, g_pop>
-        { };
-
-        struct g_line
-            : seq<opt<g_op>, opt<plus<space>>, opt<comment>>
-        { };
-
-        struct g_lines
-            : list<g_line, eolf, space>
-        { };
-
-        struct g_file
-            : until<eof, g_lines>
-        { };
+            { };
     }
 
     template<typename t_rule>
-    struct tam_action
+        struct tam_action
         : pegtl::nothing<t_rule>
-    { };
-
-    template<>
-    struct tam_action<grammar::g_push>
-    {
-        static void apply(const pegtl::input& in, std::string& debug_dummy)
-        {
-            debug_dummy = in.string();
-        }
-    };
+        { };
 }
 
 #endif
