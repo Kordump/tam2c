@@ -113,6 +113,30 @@ namespace tam2c
         struct tam_action
         : pegtl::nothing<t_rule>
         { };
+
+    template<> struct tam_action<grammar::inst_name>
+    {
+        static void apply(const pegtl::input& in, std::string& name)
+        {
+            std::cout << " [" << in.string() << "] ";
+        }
+    };
+
+    template<> struct tam_action<grammar::label>
+    {
+        static void apply(const pegtl::input& in, std::string& name)
+        {
+            std::cout << " [" << in.string() << "] ";
+        }
+    };
+
+    template<> struct tam_action<grammar::number>
+    {
+        static void apply(const pegtl::input& in, std::string& name)
+        {
+            std::cout << " [" << in.string() << "] ";
+        }
+    };
 }
 
 #endif
