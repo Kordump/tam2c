@@ -78,6 +78,15 @@ namespace tam2c
     struct tam_action
         : pegtl::nothing<t_rule>
     { };
+
+    template<>
+    struct tam_action<grammar::g_push>
+    {
+        static void apply(const pegtl::input& in, std::string& debug_dummy)
+        {
+            debug_dummy = in.string();
+        }
+    };
 }
 
 #endif
