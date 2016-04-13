@@ -20,7 +20,9 @@ int main(int argc, char* argv[])
     std::ifstream tam_file(argv[1]);
     for(std::string line = ""; std::getline(tam_file, line); ++nb_line)
     {
-        std::cout << line << "\n";
+        std::string name;
+        pegtl::parse<tam2c::grammar::line, tam2c::tam_action>(line, line, name);
+        std::cout << "\n";
     }
 
     return 0;
