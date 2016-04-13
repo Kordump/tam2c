@@ -1,0 +1,17 @@
+; programme de test
+debut:
+    PUSH 1 ; @x
+    JUMP main
+
+fin:
+HALT
+
+; affichage de x+10
+main:
+    LOADL 10;
+    LOAD (1) 0[SB] ; x
+    SUBR Iadd ; x + 10
+
+etiq:
+    SUBR Iout ; print x + 10
+    JUMP fin

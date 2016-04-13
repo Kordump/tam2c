@@ -1,0 +1,14 @@
+; Ceci est un commentaire seul sur une ligne.
+ ; Avec un peu d'offset.
+  ; Un peu plus.
+   ; Encore un peu plus.
+PUSH 4
+LOADL 5 ; Avec un commentaire
+
+                PUSH        4          ; et du padding ; woot ? ; ...
+POP (4) 5
+   POP    (3)     7   ; ...
+LOADA 5[7]
+
+
+HALT
