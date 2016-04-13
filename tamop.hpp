@@ -107,8 +107,8 @@ namespace tam2c
         // SUBR op
         template<int t_subr>
         struct subr : public op<subr<t_subr>>
-        { ; };
-    };
+        { };
+    }
 }
 
 #endif
