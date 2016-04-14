@@ -17,9 +17,19 @@ namespace tam2c
         virtual ~instruction() = default;
     };
 
+    // Templated operator, use CRTP when specialized.
     template<typename t_op>
-        struct op
-        { std::string label; };
+        struct op : public instruction
+        {
+            static const std::string name;
+            std::string label;
+
+            virtual std::string get_ident()
+            { return name; };
+        };
+
+    template<typename t_op>
+        const std::string op<t_op>::name = t_op::name;
 }
 
 #include "tamop.hpp"
