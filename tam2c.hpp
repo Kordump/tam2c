@@ -8,6 +8,15 @@
 
 namespace tam2c
 {
+    // Generic instruction, should be used with polymorphism.
+    struct instruction
+    {
+        struct invalid { static constexpr auto name = "_tamop_invalid"; };
+
+        virtual std::string get_ident() = 0;
+        virtual ~instruction() = default;
+    };
+
     template<typename t_op>
         struct op
         { std::string label; };
