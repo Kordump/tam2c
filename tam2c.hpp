@@ -8,7 +8,6 @@
 
 namespace tam2c
 {
-    using int_type = size_t;
     template<typename t_op>
         struct op
         { std::string label; };
