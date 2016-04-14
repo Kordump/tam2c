@@ -1,7 +1,6 @@
 #ifndef TAM2C_GUARD_TAMOP_HPP
 #define TAM2C_GUARD_TAMOP_HPP
 
-#include <string>
 #include "tam2c.hpp"
 
 namespace tam2c
