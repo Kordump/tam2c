@@ -133,4 +133,6 @@ namespace tam2c
 
 }
 
+#include "tam_subr.hpp"
+
 #endif
