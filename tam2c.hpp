@@ -136,7 +136,8 @@ namespace tam2c
     {
         static void apply(const pegtl::input& in, std::string& name)
         {
-            std::cout << " [" << in.string() << "] ";
+            auto inst = opcode::match(in.string());
+            std::cout << " [" << inst->get_ident() << "] ";
         }
     };
 
