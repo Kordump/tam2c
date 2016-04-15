@@ -2,6 +2,7 @@
 #define TAM2C_GUARD_TAMOP_HPP
 
 #include "tam2c.hpp"
+#include "tamop_generic.hpp"
 
 namespace tam2c
 {
