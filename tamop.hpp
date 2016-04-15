@@ -8,6 +8,13 @@ namespace tam2c
     template<typename... t_op>
     struct opcode_details
     {
+        template<typename t_this>
+        struct wrap
+        {
+            using grammar = typename t_this::grammar;
+        };
+
+        using grammar = std::tuple<typename wrap<t_op>::grammar...>;
         static const size_t cardinal = sizeof...(t_op);
 
         template<size_t t_opcode, typename t_match, typename... t_remaining>

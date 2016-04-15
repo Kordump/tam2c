@@ -3,6 +3,7 @@
 
 #include <string>
 #include <memory>
+#include <tuple>
 #include "PEGTL/pegtl.hh"
 #include "PEGTL/pegtl/contrib/alphabet.hh"
 
