@@ -24,16 +24,11 @@ namespace tam2c
     template<typename t_op>
         struct op : public instruction
         {
-            static const std::string name;
-
             std::string get_ident()
             {
                 return static_cast<t_op*>(this)->name;
             };
         };
-
-    template<typename t_op>
-        const std::string op<t_op>::name = t_op::name;
 }
 
 #include "tamop.hpp"

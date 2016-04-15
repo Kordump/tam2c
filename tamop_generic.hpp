@@ -24,7 +24,7 @@ namespace tam2c
         {
             static std::unique_ptr<instruction> name(std::string of_this)
             {
-                if(of_this == op<t_match>::name)
+                if(of_this == t_match::name)
                     return std::make_unique<op<t_match>>();
 
                 return
@@ -37,7 +37,7 @@ namespace tam2c
         {
             static std::unique_ptr<instruction> name(std::string of_this)
             {
-                if(of_this == op<t_match>::name)
+                if(of_this == t_match::name)
                     return std::make_unique<op<t_match>>();
 
                 throw std::invalid_argument(instruction::invalid);
