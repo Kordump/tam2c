@@ -19,13 +19,17 @@ namespace tam2c
         using grammar = std::tuple<typename wrap<t_op>::grammar...>;
         static const size_t cardinal = sizeof...(t_op);
 
+        template<typename t_this>
+        struct crtp : t_this, op<crtp<t_this>>
+        { };
+
         template<size_t t_opcode, typename t_match, typename... t_remaining>
         struct match_details
         {
             static std::unique_ptr<instruction> name(std::string of_this)
             {
                 if(of_this == t_match::name)
-                    return std::make_unique<op<t_match>>();
+                    return std::make_unique<crtp<t_match>>();
 
                 return
                     match_details<t_opcode - 1, t_remaining...>::name(of_this);
@@ -38,7 +42,7 @@ namespace tam2c
             static std::unique_ptr<instruction> name(std::string of_this)
             {
                 if(of_this == t_match::name)
-                    return std::make_unique<op<t_match>>();
+                    return std::make_unique<crtp<t_match>>();
 
                 throw std::invalid_argument(instruction::invalid);
             }

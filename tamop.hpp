@@ -12,59 +12,59 @@ namespace tam2c
     struct subr;
 
     // NOT implemented.
-    struct pop : op<pop>
+    struct pop
     {
         using grammar = pegtl::string<'P', 'O', 'P'>;
         static constexpr auto name = "POP";
     };
-    struct push : op<push>
+    struct push
     {
         using grammar = pegtl::string<'P', 'U', 'S', 'H'>;
         static constexpr auto name = "PUSH";
     };
-    struct jump : op<jump>
+    struct jump
     {
         using grammar = pegtl::string<'J', 'U', 'M', 'P'>;
         static constexpr auto name = "JUMP";
     };
-    struct jumpif : op<jumpif>
+    struct jumpif
     {
         using grammar = pegtl::string<'J', 'U', 'M', 'P', 'I', 'F'>;
         static constexpr auto name = "JUMPIF";
     };
-    struct store : op<store>
+    struct store
     {
         using grammar = pegtl::string<'S', 'T', 'O', 'R', 'E'>;
         static constexpr auto name = "STORE";
     };
-    struct storei : op<storei>
+    struct storei
     {
         using grammar = pegtl::string<'S', 'T', 'O', 'R', 'E', 'I'>;
         static constexpr auto name = "STOREI";
     };
-    struct halt : op<halt>
+    struct halt
     {
         using grammar = pegtl::string<'H', 'A', 'L', 'T'>;
         static constexpr auto name = "HALT";
     };
-    struct load : op<load>
+    struct load
     {
         using grammar = pegtl::string<'L', 'O', 'A', 'D'>;
         static constexpr auto name = "LOAD";
     };
-    struct loadi : op<loadi>
+    struct loadi
     {
         using grammar = pegtl::string<'L', 'O', 'A', 'D', 'I'>;
         static constexpr auto name = "LOADI";
     };
-    struct loadl : op<loadl>
+    struct loadl
     {
         using grammar = pegtl::string<'L', 'O', 'A', 'D', 'L'>;
         static constexpr auto name = "LOADL";
     };
 
     // SUBR op
-    struct subr : op<subr>
+    struct subr
     {
         using grammar = pegtl::string<'S', 'U', 'B', 'R'>;
         static constexpr auto name = "SUBR";
