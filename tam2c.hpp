@@ -74,21 +74,16 @@ namespace tam2c
             { };
 
         // Match legal instruction names.
+        template<typename... t_grammar>
+        struct inst_name_details;
+
+        template<typename... t_grammar>
+        struct inst_name_details<std::tuple<t_grammar...>>
+            : sor<t_grammar...>
+            { };
+
         struct inst_name
-            : sor<
-                string<P, U, S, H>,
-                string<P, O, P>,
-                string<L, O, A, D, L>,
-                string<L, O, A, D, A>,
-                string<L, O, A, D, I>,
-                string<L, O, A, D>,
-                string<S, T, O, R, E, I>,
-                string<S, T, O, R, E>,
-                string<J, U, M, P, I, F>,
-                string<J, U, M, P>,
-                string<S, U, B, R>,
-                string<H, A, L, T>
-              >
+            : inst_name_details<opcode::grammar>
             { };
 
         // Match the generic structure of a TAM instruction.
