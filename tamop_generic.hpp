@@ -2,6 +2,7 @@
 #define TAM2C_GUARD_TAMOP_GENERIC_HPP
 
 #include <tuple>
+#include <stdexcept>
 #include "tam2c.hpp"
 
 namespace tam2c
@@ -39,7 +40,7 @@ namespace tam2c
                 if(of_this == op<t_match>::name)
                     return std::make_unique<op<t_match>>();
 
-                return std::make_unique<op<instruction::invalid>>();
+                throw std::invalid_argument(instruction::invalid);
             }
         };
 

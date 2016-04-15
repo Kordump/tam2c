@@ -12,7 +12,7 @@ namespace tam2c
     // Generic instruction, should be used with polymorphism.
     struct instruction
     {
-        struct invalid { static constexpr auto name = "_tamop_invalid"; };
+        static constexpr auto invalid = "_tamop_invalid";
 
         std::string label;
 
