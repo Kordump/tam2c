@@ -14,6 +14,8 @@ namespace tam2c
     {
         struct invalid { static constexpr auto name = "_tamop_invalid"; };
 
+        std::string label;
+
         virtual std::string get_ident() = 0;
         virtual ~instruction() = default;
     };
@@ -23,7 +25,6 @@ namespace tam2c
         struct op : public instruction
         {
             static const std::string name;
-            std::string label;
 
             virtual std::string get_ident()
             { return name; };
