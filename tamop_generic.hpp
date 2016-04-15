@@ -28,7 +28,7 @@ namespace tam2c
         {
             static std::unique_ptr<instruction> name(std::string of_this)
             {
-                if(of_this == t_match::name)
+                if(pegtl::parse<typename t_match::grammar>(of_this, of_this))
                     return std::make_unique<crtp<t_match>>();
 
                 return
@@ -41,7 +41,7 @@ namespace tam2c
         {
             static std::unique_ptr<instruction> name(std::string of_this)
             {
-                if(of_this == t_match::name)
+                if(pegtl::parse<typename t_match::grammar>(of_this, of_this))
                     return std::make_unique<crtp<t_match>>();
 
                 throw std::invalid_argument(instruction::invalid);
