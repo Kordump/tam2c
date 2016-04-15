@@ -34,6 +34,19 @@ namespace tam2c
 }
 
 #include "tamop.hpp"
+
+namespace tam2c
+{
+    // Please order keywords by average frequency.
+    using opcode =
+        opcode_details<
+            pop,        store,      load,
+            push,       storei,     loadi,
+            jump,       subr,       loadl,
+            jumpif,     halt
+                >;
+}
+
 #include "tam_grammar.hpp"
 
 namespace tam2c

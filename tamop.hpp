@@ -63,15 +63,6 @@ namespace tam2c
         static constexpr auto name = "LOADL";
     };
 
-    // Please order keywords by average frequency.
-    using opcode =
-        opcode_details<
-            pop,        store,      load,
-            push,       storei,     loadi,
-            jump,       subr,       loadl,
-            jumpif,     halt
-                >;
-
     // SUBR op
     struct subr
     {
