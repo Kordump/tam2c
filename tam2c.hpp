@@ -34,6 +34,7 @@ namespace tam2c
 }
 
 #include "tamop.hpp"
+#include "tam_grammar.hpp"
 
 namespace tam2c
 {
