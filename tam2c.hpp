@@ -26,8 +26,10 @@ namespace tam2c
         {
             static const std::string name;
 
-            virtual std::string get_ident()
-            { return name; };
+            std::string get_ident()
+            {
+                return static_cast<t_op*>(this)->name;
+            };
         };
 
     template<typename t_op>
