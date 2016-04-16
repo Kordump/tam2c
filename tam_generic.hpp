@@ -56,10 +56,13 @@ namespace tam2c
         {
             static std::unique_ptr<instruction> name(std::string of_this)
             {
-                if(pegtl::parse<typename t_match::grammar>(of_this, of_this))
-                    return std::make_unique<crtp<t_match>>();
+                if(!pegtl::parse<typename t_match::grammar>(of_this, of_this))
+                {
+                    throw std::logic_error("Unreachable code reached.");
+                    __builtin_unreachable();
+                }
 
-                throw std::invalid_argument(instruction::invalid);
+                return std::make_unique<crtp<t_match>>();
             }
         };
 
