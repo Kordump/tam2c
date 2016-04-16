@@ -22,19 +22,22 @@ namespace tam2c
 
     // Templated operator, use CRTP when specialized.
     template<typename t_op>
-        struct op : public instruction
-        {
-            std::string get_ident()
-            {
-                return static_cast<t_op*>(this)->name;
-            };
-        };
+    struct op;
 }
 
 #include "tamop.hpp"
 
 namespace tam2c
 {
+    template<typename t_op>
+        struct op : public instruction
+    {
+        std::string get_ident()
+        {
+            return t_op::name;
+        };
+    };
+
     // Please order keywords by average frequency.
     using opcode =
         opcode_details<

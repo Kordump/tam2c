@@ -3,6 +3,7 @@
 
 #include <tuple>
 #include <stdexcept>
+#include <initializer_list>
 #include "tam2c.hpp"
 
 namespace tam2c
@@ -21,7 +22,21 @@ namespace tam2c
 
         template<typename t_this>
         struct crtp : t_this, op<crtp<t_this>>
-        { };
+        {
+            template<typename t_serial>
+            struct to_str;
+
+            template<char... t_serial>
+            struct to_str<pegtl::string<t_serial...>>
+            {
+                static constexpr std::initializer_list<char> value =
+                    {t_serial...};
+            };
+
+            using type = t_this;
+            static constexpr auto name = to_str<typename type::grammar>::value;
+
+        };
 
         template<size_t t_opcode, typename t_match, typename... t_remaining>
         struct match_details
