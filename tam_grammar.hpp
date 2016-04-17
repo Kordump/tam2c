@@ -5,7 +5,7 @@
 #include "PEGTL/pegtl/contrib/alphabet.hh"
 
 #include "tam2c.hpp"
-#include "tamop_generic.hpp"
+#include "tam_generic.hpp"
 
 namespace tam2c
 {
