@@ -24,7 +24,7 @@ namespace tam2c
         struct crtp : t_this, op<crtp<t_this>>
         {
             template<typename t_serial>
-            struct to_str;
+            struct to_str { };
 
             template<char... t_serial>
             struct to_str<pegtl::string<t_serial...>>
@@ -35,7 +35,6 @@ namespace tam2c
 
             using type = t_this;
             static constexpr auto name = to_str<typename type::grammar>::value;
-
         };
 
         template<size_t t_opcode, typename t_match, typename... t_remaining>
