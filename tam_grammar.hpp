@@ -1,6 +1,7 @@
 #ifndef TAM2C_GUARD_TAM_GRAMMAR_HPP
 #define TAM2C_GUARD_TAM_GRAMMAR_HPP
 
+#include <tuple>
 #include "PEGTL/pegtl.hh"
 #include "PEGTL/pegtl/contrib/alphabet.hh"
 
@@ -19,9 +20,9 @@ namespace tam2c
             : if_must<one<';'>, until<eolf>>
             { };
 
-        // Match a number, decimal or hexadecimal.
+        // Match a decimal number, positive or negative.
         struct number
-            : sor<plus<digit>, seq<string<'0', x>, plus<digit>>>
+            : seq<opt<one<'-'>>, plus<digit>>
             { };
 
         // Match a label, from 1 to 255 alphanumeric chars.
