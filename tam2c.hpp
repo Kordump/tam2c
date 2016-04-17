@@ -28,7 +28,7 @@ namespace tam2c
 namespace tam2c
 {
     template<typename t_op>
-        struct op : public instruction
+        struct op : instruction
     {
         std::string get_ident()
         {

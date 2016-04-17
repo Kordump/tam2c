@@ -58,7 +58,6 @@ namespace tam2c
                 if(!pegtl::parse<typename t_match::grammar>(of_this, of_this))
                 {
                     throw std::logic_error("Unreachable code reached.");
-                    __builtin_unreachable();
                 }
 
                 return std::make_unique<crtp<t_match>>();
