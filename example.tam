@@ -3,12 +3,14 @@ debut:
     PUSH 1 ; @x
     JUMP main
 
+unused: PUSH 1
+
 fin:
 HALT
 
 ; affichage de x+10
 main:
-    LOADL 10;
+    LOADL 10 ;
     LOAD (1) 0[SB] ; x
     SUBR Iadd ; x + 10
 
