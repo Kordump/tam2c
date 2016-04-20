@@ -42,7 +42,7 @@ namespace tam2c
             pop,        store,      load,
             push,       storei,     loadi,
             jump,       subr,       loadl,
-            jumpif,     halt
+            jumpif,     halt,       loada
                 >;
 }
 
