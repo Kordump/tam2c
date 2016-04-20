@@ -60,15 +60,15 @@ namespace tam2c
         static void apply(const pegtl::input& in, std::string& name)
         {
             auto inst = opcode::match(in.string());
-            std::cout << " [" << inst->get_ident() << "] ";
+            std::cout << " op[" << inst->get_ident() << "] ";
         }
     };
 
-    template<> struct tam_action<grammar::label>
+    template<> struct tam_action<grammar::atomic_label>
     {
         static void apply(const pegtl::input& in, std::string& name)
         {
-            std::cout << " [" << in.string() << "] ";
+            std::cout << " +str[" << in.string() << "] ";
         }
     };
 
@@ -76,7 +76,15 @@ namespace tam2c
     {
         static void apply(const pegtl::input& in, std::string& name)
         {
-            std::cout << " [" << in.string() << "] ";
+            std::cout << " +int[" << in.string() << "] ";
+        }
+    };
+
+    template<> struct tam_action<grammar::define_label>
+    {
+        static void apply(const pegtl::input& in, std::string& name)
+        {
+            std::cout << " add[" << in.string() << "] ";
         }
     };
 }
