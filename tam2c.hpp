@@ -36,13 +36,13 @@ namespace tam2c
         };
     };
 
-    // Please order keywords by average frequency.
+    // Please order keywords by average frequency and avoid collisions.
     using opcode =
         opcode_details<
-            pop,        store,      load,
-            push,       storei,     loadi,
-            jump,       subr,       loadl,
-            jumpif,     halt,       loada
+            pop,        storei,     loadl,
+            push,       store,      loadi,
+            jumpif,     subr,       loada,
+            jump,       halt,       load
                 >;
 }
 
