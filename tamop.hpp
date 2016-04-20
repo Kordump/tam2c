@@ -14,22 +14,20 @@ namespace tam2c
     struct subr;
 
     // NOT implemented.
-    struct pop      { using grammar = pegtl::string<P, O, P>;               };
-    struct push     { using grammar = pegtl::string<P, U, S, H>;            };
-    struct jump     { using grammar = pegtl::string<J, U, M, P>;            };
-    struct jumpif   { using grammar = pegtl::string<J, U, M, P, I, F>;      };
-    struct store    { using grammar = pegtl::string<S, T, O, R, E>;         };
-    struct storei   { using grammar = pegtl::string<S, T, O, R, E, I>;      };
-    struct halt     { using grammar = pegtl::string<H, A, L, T>;            };
-    struct load     { using grammar = pegtl::string<L, O, A, D>;            };
-    struct loadi    { using grammar = pegtl::string<L, O, A, D, I>;         };
-    struct loadl    { using grammar = pegtl::string<L, O, A, D, L>;         };
+    struct store  : op_name<S, T, O, R, E>,    op_args<int, int, int> { };
+    struct load   : op_name<L, O, A, D>,       op_args<int, int, int> { };
+    struct pop    : op_name<P, O, P>,          op_args<int, int>      { };
+    struct push   : op_name<P, U, S, H>,       op_args<int>           { };
+    struct storei : op_name<S, T, O, R, E, I>, op_args<int>           { };
+    struct loadi  : op_name<L, O, A, D, I>,    op_args<int>           { };
+    struct loadl  : op_name<L, O, A, D, L>,    op_args<int>           { };
+    struct halt   : op_name<H, A, L, T>,       op_args<>              { };
+    struct jump   : op_name<J, U, M, P>,       op_args<char[]>        { };
+    struct jumpif : op_name<J, U, M, P, I, F>, op_args<int, char[]>   { };
 
     // SUBR op
-    struct subr
+    struct subr : op_name<S, U, B, R>, op_args<char[]>
     {
-        using grammar = pegtl::string<S, U, B, R>;
-
         template<size_t t_code> struct op { };
         static constexpr auto invalid = "_subr_invalid";
 

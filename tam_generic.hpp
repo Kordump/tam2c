@@ -69,6 +69,19 @@ namespace tam2c
             return match_details<cardinal, t_op...>::name(name);
         };
     };
+
+    template<char... t_grammar>
+    struct op_name
+    {
+        using grammar = pegtl::string<t_grammar...>;
+    };
+
+    template<typename... t_args>
+    struct op_args
+    {
+
+    };
+
 }
 
 #endif
