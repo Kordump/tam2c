@@ -15,6 +15,20 @@ namespace tam2c
         // Grammar to parse **one line** of TAM
         using namespace pegtl;
 
+        // Match a rule, then trigger it.
+        template<typename... t_rule>
+        struct if_must_at :
+            if_must<at<t_rule...>, t_rule...>
+            { };
+
+        // Ensure that nothing is going on until eolf or comment.
+        struct toend :
+            at<sor<
+                until<one<';'>, space>,
+                until<eolf, space>
+                >>
+            { };
+
         // Matching ';' implies consuming tokens until eolf.
         struct comment
             : if_must<one<';'>, until<eolf>>
@@ -27,7 +41,7 @@ namespace tam2c
 
         // Match a label, from 1 to 255 alphanumeric chars.
         struct label
-            : rep_min_max<1, 255, alpha>
+            : identifier
             { };
 
         // Match numbers wrapped in their syntax. (raw, (raw), raw[raw])
@@ -62,27 +76,30 @@ namespace tam2c
         // Match the generic structure of a TAM instruction.
         struct inst_generic
             : if_must<
+                at<inst_name, sor<space, toend>>,
                 inst_name,
                 rep_opt<2, pad<
                     sor<atomic_number, atomic_label>,
                     space>>>
             { };
 
+        // Proxy label for convenience
+        struct add_label
+            : label
+            { } ;
+
         // Match a label definition.
         struct define_label
-            : pad<
-                seq<label, one<':'>>,
-                space>
+            : if_must_at<add_label, one<':'>>
             { };
 
         // Match an instruction, a label definition, or the combination.
         struct inst
             : sor<
-                inst_generic,
-                define_label,
-                if_must<
-                    define_label,
-                    pad<inst_generic, space>>>
+                if_must_at<define_label, star<space>, inst_generic>,
+                if_must_at<inst_generic, toend>,
+                if_must_at<define_label, toend>
+                >
             { } ;
 
         // Match a line, empty, commented, or the combination.

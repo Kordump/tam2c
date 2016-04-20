@@ -80,7 +80,7 @@ namespace tam2c
         }
     };
 
-    template<> struct tam_action<grammar::define_label>
+    template<> struct tam_action<grammar::add_label>
     {
         static void apply(const pegtl::input& in, std::string& name)
         {
