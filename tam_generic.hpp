@@ -27,7 +27,7 @@ namespace tam2c
             struct to_str { };
 
             template<char... t_serial>
-            struct to_str<pegtl::string<t_serial...>>
+            struct to_str<pegtl::istring<t_serial...>>
             {
                 static constexpr std::initializer_list<char> value =
                     {t_serial...};
@@ -73,7 +73,7 @@ namespace tam2c
     template<char... t_grammar>
     struct op_name
     {
-        using grammar = pegtl::string<t_grammar...>;
+        using grammar = pegtl::istring<t_grammar...>;
     };
 
     template<typename... t_args>
