@@ -29,7 +29,6 @@ namespace tam2c
     // Implemented
 
     // Working on...
-    struct subr;
 
     // NOT implemented.
     struct store  : op_name<S, T, O, R, E>,    op_args<int, int, int> { };
@@ -43,25 +42,7 @@ namespace tam2c
     struct halt   : op_name<H, A, L, T>,       op_args<>              { };
     struct jump   : op_name<J, U, M, P>,       op_args<char[]>        { };
     struct jumpif : op_name<J, U, M, P, I, F>, op_args<int, char[]>   { };
-
-    // SUBR op
-    struct subr : op_name<S, U, B, R>, op_args<char[]>
-    {
-        template<size_t t_code> struct op { };
-        static constexpr auto invalid = "_subr_invalid";
-
-        template<size_t t_code = 0>
-        struct match
-        {
-            static std::string name(std::string of_this)
-            {
-                if(of_this == subr::op<t_code>::name)
-                    return subr::op<t_code>::name;
-
-                return match<t_code + 1>::name(of_this);
-            };
-        };
-    };
+    struct subr   : op_name<S, U, B, R>,       op_args<char[]>        { };
 }
 
 #include "tam_subr.hpp"

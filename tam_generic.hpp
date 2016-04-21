@@ -88,6 +88,11 @@ namespace tam2c
 
     };
 
+    template<char... t_grammar>
+    struct op_subr : op_name<t_grammar...>, op_args<>
+    {
+
+    };
 }
 
 #endif

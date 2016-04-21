@@ -54,6 +54,22 @@ namespace tam2c
                     HB, HT,
             LB, L1, L2, L3, L4, L5, L6
                 >;
+
+    // Please order subroutines by average frequency and avoid collisions.
+    using subroutines =
+        opcode_details<
+            BNeg,            BOr,            BAnd,            BOut,
+            BIn,             B2C,            B2I,             B2S,
+            COut,            CIn,            C2B,             C2I,
+            C2S,             INeg,           IAdd,            ISub,
+            IMul,            IDiv,           IMod,            IEq,
+            INeq,            ILss,           ILeq,            IGtr,
+            IGeq,            IOut,           IIn,             I2B,
+            I2C,             I2S,            MVoid,           MAlloc,
+            MFree,           MCompare,       MCopy,           SAlloc,
+            SCopy,           SConcat,        SOut,            SIn,
+            S2B,             S2C,            S2I
+                >;
 }
 
 #include "tam_grammar.hpp"
@@ -96,6 +112,15 @@ namespace tam2c
         {
             auto reg = registers::match(in.string());
             std::cout << " +reg[" << reg->get_ident() << "] ";
+        }
+    };
+
+    template<> struct tam_action<grammar::subroutine_name>
+    {
+        static void apply(const pegtl::input& in, std::string& name)
+        {
+            auto sub = subroutines::match(in.string());
+            std::cout << " +sub[" << sub->get_ident() << "] ";
         }
     };
 

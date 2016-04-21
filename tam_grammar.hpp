@@ -64,6 +64,11 @@ namespace tam2c
             : inst_name_details<registers::grammar>
             { };
 
+        // Match legal subroutines name.
+        struct subroutine_name
+            : inst_name_details<subroutines::grammar>
+            { };
+
         // Match numbers wrapped in their syntax. (raw, (raw), raw[raw])
         struct atomic_number
             : sor<
@@ -90,13 +95,21 @@ namespace tam2c
                 seq<one<'\''>, label, one<'\''>>>
             { };
 
+        struct atomic_subroutine
+            : seq<subroutine_name, toend>
+            { };
+
         // Match the generic structure of a TAM instruction.
         struct inst_generic
             : if_must<
                 at<inst_name, sor<space, toend>>,
                 inst_name,
                 rep_opt<2, pad<
-                    sor<atomic_register, atomic_number, atomic_label>,
+                    sor<
+                        atomic_register,
+                        atomic_number,
+                        atomic_subroutine,
+                        atomic_label>,
                     space>>>
             { };
 
