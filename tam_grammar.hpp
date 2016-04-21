@@ -44,12 +44,42 @@ namespace tam2c
             : identifier
             { };
 
+        // Extract stored grammar pack, details.
+        template<typename... t_grammar>
+        struct inst_name_details;
+
+        // (Extract stored grammar pack, details)
+        template<typename... t_grammar>
+        struct inst_name_details<std::tuple<t_grammar...>>
+            : sor<t_grammar...>
+            { };
+
+        // Match legal instruction name.
+        struct inst_name
+            : inst_name_details<opcode::grammar>
+            { };
+
+        // Match legal register name.
+        struct register_name
+            : inst_name_details<registers::grammar>
+            { };
+
         // Match numbers wrapped in their syntax. (raw, (raw), raw[raw])
         struct atomic_number
             : sor<
                 number,
                 seq<one<'('>, number, one<')'>>,
                 seq<number, one<'['>, number, one<']'>>>
+            { };
+
+        // Match registers wrapped in their syntax. (raw, (raw), raw[raw])
+        struct atomic_register
+            : sor<
+                register_name,
+                seq<one<'('>, register_name, one<')'>>,
+                seq<number, one<'['>, register_name, one<']'>>,
+                seq<register_name, one<'['>, number, one<']'>>,
+                seq<register_name, one<'['>, register_name, one<']'>>>
             { };
 
         // Match labels wrapped in string semantics. (raw, 'raw', "raw")
@@ -60,26 +90,13 @@ namespace tam2c
                 seq<one<'\''>, label, one<'\''>>>
             { };
 
-        // Match legal instruction names.
-        template<typename... t_grammar>
-        struct inst_name_details;
-
-        template<typename... t_grammar>
-        struct inst_name_details<std::tuple<t_grammar...>>
-            : sor<t_grammar...>
-            { };
-
-        struct inst_name
-            : inst_name_details<opcode::grammar>
-            { };
-
         // Match the generic structure of a TAM instruction.
         struct inst_generic
             : if_must<
                 at<inst_name, sor<space, toend>>,
                 inst_name,
                 rep_opt<2, pad<
-                    sor<atomic_number, atomic_label>,
+                    sor<atomic_register, atomic_number, atomic_label>,
                     space>>>
             { };
 

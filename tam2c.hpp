@@ -44,6 +44,16 @@ namespace tam2c
             jumpif,     subr,       loada,
             jump,       halt,       load
                 >;
+
+    // Please order registers by average frequency and avoid collisions.
+    using registers =
+        opcode_details<
+            CP,     CB, CT,
+                    PB, PT,
+                    SB, ST,
+                    HB, HT,
+            LB, L1, L2, L3, L4, L5, L6
+                >;
 }
 
 #include "tam_grammar.hpp"
@@ -77,6 +87,15 @@ namespace tam2c
         static void apply(const pegtl::input& in, std::string& name)
         {
             std::cout << " +int[" << in.string() << "] ";
+        }
+    };
+
+    template<> struct tam_action<grammar::register_name>
+    {
+        static void apply(const pegtl::input& in, std::string& name)
+        {
+            auto reg = registers::match(in.string());
+            std::cout << " +reg[" << reg->get_ident() << "] ";
         }
     };
 
