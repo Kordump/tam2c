@@ -3,7 +3,7 @@ debut:
     PUSH 1 ; @x
     JUMP main
 
-unused: PUSH 1
+unused: PUSH SB
 
 fin:
 HALT
