@@ -73,6 +73,7 @@ namespace tam2c
 }
 
 #include "tam_grammar.hpp"
+#include "tam_visitor.hpp"
 
 namespace tam2c
 {
