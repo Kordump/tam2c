@@ -17,13 +17,13 @@ namespace tam2c
 
         // Match a rule, then trigger it.
         template<typename... t_rule>
-        struct if_must_at :
-            if_must<at<t_rule...>, t_rule...>
+        struct if_must_at
+            : if_must<at<t_rule...>, t_rule...>
             { };
 
         // Ensure that nothing is going on until eolf or comment.
-        struct toend :
-            at<sor<
+        struct toend
+            : at<sor<
                 until<one<';'>, space>,
                 until<eolf, space>
                 >>

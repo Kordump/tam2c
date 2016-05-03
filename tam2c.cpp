@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+
 #include "tam2c.hpp"
 
 int main(int argc, char* argv[])

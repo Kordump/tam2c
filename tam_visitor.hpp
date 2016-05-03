@@ -30,7 +30,7 @@ namespace tam2c
         // Add one or more argument to the pending instruction,
         // return true only if these arguments are semantically valid.
         template<typename t_arg>
-        bool push_arg(t_arg arg){ return true; }
+        bool push_arg(t_arg arg){ return true; } // TODO
 
         // Details: Supports more than one parameter.
         template<typename... t_arg_pack>
