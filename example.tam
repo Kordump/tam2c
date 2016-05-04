@@ -3,6 +3,8 @@ debut:
     PUSH 1 ; @x
     JUMP main
 
+LOADA 4[SB]
+
 unused: PUSH SB
 
 fin:

@@ -22,6 +22,7 @@ int main(int argc, char* argv[])
     for(std::string line = ""; std::getline(tam_file, line); ++nb_line)
     {
         std::string name;
+        std::cout << nb_line << ": ";
         pegtl::parse<tam2c::grammar::line, tam2c::tam_action>(line, line, name);
         std::cout << "\n";
     }
