@@ -31,7 +31,7 @@ namespace tam2c
 
         // Matching ';' implies consuming tokens until eolf.
         struct comment
-            : if_must<one<';'>, until<eolf>>
+            : pad<if_must<one<';'>, until<eolf>>, space>
             { };
 
         // Match a decimal number, positive or negative.
@@ -72,31 +72,31 @@ namespace tam2c
         // Match numbers wrapped in their syntax. (raw, (raw), raw[raw])
         struct atomic_number
             : sor<
-                number,
-                seq<one<'('>, number, one<')'>>,
-                seq<number, one<'['>, number, one<']'>>>
+                if_must_at<number>,
+                if_must_at<one<'('>, number, one<')'>>,
+                if_must_at<number, one<'['>, number, one<']'>>>
             { };
 
         // Match registers wrapped in their syntax. (raw, (raw), raw[raw])
         struct atomic_register
             : sor<
-                register_name,
-                seq<one<'('>, register_name, one<')'>>,
-                seq<number, one<'['>, register_name, one<']'>>,
-                seq<register_name, one<'['>, number, one<']'>>,
-                seq<register_name, one<'['>, register_name, one<']'>>>
+                if_must_at<register_name>,
+                if_must_at<one<'('>, register_name, one<')'>>,
+                if_must_at<number, one<'['>, register_name, one<']'>>,
+                if_must_at<register_name, one<'['>, number, one<']'>>,
+                if_must_at<register_name, one<'['>, register_name, one<']'>>>
             { };
 
         // Match labels wrapped in string semantics. (raw, 'raw', "raw")
         struct atomic_label
             : sor<
-                label,
-                seq<one<'\"'>, label, one<'\"'>>,
-                seq<one<'\''>, label, one<'\''>>>
+                if_must_at<label>,
+                if_must_at<one<'\"'>, label, one<'\"'>>,
+                if_must_at<one<'\''>, label, one<'\''>>>
             { };
 
         struct atomic_subroutine
-            : seq<subroutine_name, toend>
+            : if_must_at<subroutine_name, toend>
             { };
 
         // Match the generic structure of a TAM instruction.
@@ -125,20 +125,21 @@ namespace tam2c
 
         // Match an instruction, a label definition, or the combination.
         struct inst
-            : sor<
+            : pad<sor<
                 if_must_at<define_label, star<space>, inst_generic>,
                 if_must_at<inst_generic, toend>,
                 if_must_at<define_label, toend>
-                >
+                >, space>
             { } ;
 
         // Match a line, empty, commented, or the combination.
         struct line
             : must<
                 sor<
-                    seq<pad<inst, space>, opt<comment>>,
-                    pad<comment, space>,
-                    seq<star<space>, eof>>
+                    seq<inst, opt<comment>>,
+                    star<space>,
+                    comment
+                >, opt<eolf>
               >
             { };
     }
