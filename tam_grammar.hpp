@@ -17,21 +17,21 @@ namespace tam2c
 
         // Match a rule, then trigger it.
         template<typename... t_rule>
-        struct if_must_at
-            : if_must<at<t_rule...>, t_rule...>
+        struct if_must_at :
+            if_must<at<t_rule...>, t_rule...>
             { };
 
         // Ensure that nothing is going on until eolf or comment.
-        struct toend
-            : at<sor<
-                until<one<';'>, space>,
-                until<eolf, space>
+        struct toend :
+            at<sor<
+                until<eolf, space>,
+                until<plus<one<';'>>, space>
                 >>
             { };
 
-        // Matching ';' implies consuming tokens until eolf.
+        // Matching ';' implies consuming tokens until end.
         struct comment
-            : pad<if_must<one<';'>, until<eolf>>, space>
+            : pad<if_must<plus<one<';'>>, until<toend>>, space>
             { };
 
         // Match a decimal number, positive or negative.
@@ -73,8 +73,7 @@ namespace tam2c
         struct atomic_number
             : sor<
                 if_must_at<number>,
-                if_must_at<one<'('>, number, one<')'>>,
-                if_must_at<number, one<'['>, number, one<']'>>>
+                if_must_at<one<'('>, number, one<')'>>>
             { };
 
         // Match registers wrapped in their syntax. (raw, (raw), raw[raw])
@@ -102,7 +101,7 @@ namespace tam2c
         // Match the generic structure of a TAM instruction.
         struct inst_generic
             : if_must<
-                at<inst_name, sor<space, toend>>,
+                at<inst_name, sor<toend, star<space>>>,
                 inst_name,
                 rep_opt<2, pad<
                     sor<
@@ -137,9 +136,9 @@ namespace tam2c
             : must<
                 sor<
                     seq<inst, opt<comment>>,
-                    star<space>,
-                    comment
-                >, opt<eolf>
+                    comment,
+                    star<space>
+                >, until<eolf, space>
               >
             { };
     }
