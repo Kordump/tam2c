@@ -31,7 +31,7 @@ namespace tam2c
 
         // Matching ';' implies consuming tokens until end.
         struct comment
-            : pad<if_must<plus<one<';'>>, until<toend>>, space>
+            : pad<if_must<plus<one<';'>>, until<at<eolf>>>, space>
             { };
 
         // Match a decimal number, positive or negative.
@@ -39,9 +39,19 @@ namespace tam2c
             : seq<opt<one<'-'>>, plus<digit>>
             { };
 
-        // Match a label, from 1 to 255 alphanumeric chars.
+        // Match a label.
         struct label
             : identifier
+            { };
+
+        // Match a string, quoted by t_quote.
+        template<char t_quote>
+        struct tam_string
+            : star<
+                sor<
+                    if_must<one<'\\'>, one<'\"', '\'', '\\', 'n'>>,
+                    not_one<t_quote>>
+              >
             { };
 
         // Extract stored grammar pack, details.
@@ -69,7 +79,7 @@ namespace tam2c
             : inst_name_details<subroutines::grammar>
             { };
 
-        // Match numbers wrapped in their syntax. (raw, (raw), raw[raw])
+        // Match numbers wrapped in their syntax. (raw, (raw))
         struct atomic_number
             : sor<
                 if_must_at<number>,
@@ -86,14 +96,29 @@ namespace tam2c
                 if_must_at<register_name, one<'['>, register_name, one<']'>>>
             { };
 
-        // Match labels wrapped in string semantics. (raw, 'raw', "raw")
+        // Match labels wrapped in string semantics. (#raw, raw, raw:)
         struct atomic_label
-            : sor<
-                if_must_at<label>,
-                if_must_at<one<'\"'>, label, one<'\"'>>,
-                if_must_at<one<'\''>, label, one<'\''>>>
+            : if_must_at<opt<one<'#'>>, label, opt<one<':'>>>
             { };
 
+        // Match t_quote-quoted strings.
+        template<char t_quote>
+        struct atomic_string_quoted
+            : seq<
+                one<t_quote>,
+                tam_string<t_quote>,
+                one<t_quote>>
+            { };
+
+        // Match const strings.
+        struct atomic_string
+            : sor<
+                atomic_string_quoted<'\"'>,
+                atomic_string_quoted<'\''>
+              >
+            { };
+
+        // Match subroutines.
         struct atomic_subroutine
             : if_must_at<subroutine_name, toend>
             { };
@@ -108,18 +133,32 @@ namespace tam2c
                         atomic_register,
                         atomic_number,
                         atomic_subroutine,
+                        atomic_string,
                         atomic_label>,
                     space>>>
             { };
 
         // Proxy label for convenience
         struct add_label
-            : label
-            { } ;
+            : disable<label>
+            { };
+
+        // Proxy label for convenience, emitting warnings.
+        struct add_label_weak
+            : add_label
+            { };
 
         // Match a label definition.
         struct define_label
-            : if_must_at<add_label, one<':'>>
+            : sor<
+                if_must_at<
+                    not_at<inst_name>,
+                    add_label,
+                    one<':'>>,
+                if_must_at<
+                    not_at<inst_name>,
+                    add_label_weak>
+                >
             { };
 
         // Match an instruction, a label definition, or the combination.

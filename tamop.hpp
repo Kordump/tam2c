@@ -7,6 +7,7 @@
 namespace tam2c
 {
     using namespace pegtl::alphabet;
+    struct mixed;
 
     // Registers
     struct CP : op_register<C, P>   { }; // code pointer    (     )
@@ -32,13 +33,16 @@ namespace tam2c
 
     // NOT implemented.
     struct store  : op_name<S, T, O, R, E>,    op_args<int, int, int> { };
+    struct ret    : op_name<R, E, T, U, R, N>, op_args<int, int>      { };
+    struct call   : op_name<C, A, L, L>,       op_args<int, char[]>   { };
+    struct calli  : op_name<C, A, L, L, I>,    op_args<>              { };
     struct load   : op_name<L, O, A, D>,       op_args<int, int, int> { };
     struct loada  : op_name<L, O, A, D, A>,    op_args<int, int>      { };
     struct pop    : op_name<P, O, P>,          op_args<int, int>      { };
     struct push   : op_name<P, U, S, H>,       op_args<int>           { };
     struct storei : op_name<S, T, O, R, E, I>, op_args<int>           { };
     struct loadi  : op_name<L, O, A, D, I>,    op_args<int>           { };
-    struct loadl  : op_name<L, O, A, D, L>,    op_args<int>           { };
+    struct loadl  : op_name<L, O, A, D, L>,    op_args<mixed>         { };
     struct halt   : op_name<H, A, L, T>,       op_args<>              { };
     struct jump   : op_name<J, U, M, P>,       op_args<char[]>        { };
     struct jumpif : op_name<J, U, M, P, I, F>, op_args<int, char[]>   { };

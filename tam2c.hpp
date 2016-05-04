@@ -42,7 +42,8 @@ namespace tam2c
             pop,        storei,     loadl,
             push,       store,      loadi,
             jumpif,     subr,       loada,
-            jump,       halt,       load
+            jump,       halt,       load,
+            calli,      call,       ret
                 >;
 
     // Please order registers by average frequency and avoid collisions.
@@ -91,11 +92,27 @@ namespace tam2c
         }
     };
 
-    template<> struct tam_action<grammar::atomic_label>
+    template<> struct tam_action<grammar::label>
+    {
+        static void apply(const pegtl::input& in, std::string& name)
+        {
+            std::cout << " +etiq[" << in.string() << "] ";
+        }
+    };
+
+    template<> struct tam_action<grammar::tam_string<'\"'>>
     {
         static void apply(const pegtl::input& in, std::string& name)
         {
             std::cout << " +str[" << in.string() << "] ";
+        }
+    };
+
+    template<> struct tam_action<grammar::tam_string<'\''>>
+    {
+        static void apply(const pegtl::input& in, std::string& name)
+        {
+            tam_action<grammar::tam_string<'\"'>>::apply(in, name);
         }
     };
 
@@ -132,6 +149,16 @@ namespace tam2c
             std::cout << " add[" << in.string() << "] ";
         }
     };
+
+    template<> struct tam_action<grammar::add_label_weak>
+    {
+        static void apply(const pegtl::input& in, std::string& name)
+        {
+            std::cout << " Warning -> ";
+            tam_action<grammar::add_label>::apply(in, name);
+        }
+    };
+
 }
 
 #endif
