@@ -1,0 +1,74 @@
+; Table des virtuelles : tableau d'indirection des méthodes des classes
+	; CLASSE Point
+	LOADA _Point_ytrans_entier
+	LOADA _Point_xtrans_entier
+	LOADA _Point_milieu_Point
+	LOADA _Point_init_entier_entier
+	LOADA _Point_gety
+	LOADA _Point_getx
+	LOADA _Point_setx_entier
+	LOADA _Point_sety_entier
+
+	; Appel de la fonction main
+	CALL (SB) _Math_main
+	 LOADL "FIN DU PROGRAMME ! "
+	SUBR SOut
+	LOADL "VALEUR DE RETOUR : "
+	SUBR SOut
+	SUBR IOut
+	LOADL "\n"
+	SUBR SOut
+	HALT
+; En cas d'exception
+_NPE_
+	LOADL "Null Pointer Exception"
+	SUBR SOut
+	HALT
+
+	; Constructeur par défaut de la classe Math
+_Math_defaut
+	; Allocation de l'espace mémoire
+	LOADL 1 ;Taille de l'objet + TDV
+	SUBR MAlloc ; Allocation
+	LOADL 0 ; @TDV de la classe
+	LOAD (1) -2[ST] ; On récupère l'@ fournie par le malloc
+	STOREI (1) ; Et on affecte la valeur de la TDV dans l'objet crée
+	; Initialisation des attributs
+	RETURN (1) 0
+
+; Méthode main de la classe Math
+_Math_main
+	;Declaration du Type entier
+	LOADL 0
+	LOADL 4
+	LOADL 1
+	LOADL 0
+	;Declaration du Type Point
+	LOADL 0
+	; Ecriture mémoire
+	; -> Calul de l'expression
+	;Appel au constructeur :
+	; Param 2
+	; Lecture mémoire
+	LOADI (1)
+	; Param 1
+	; Lecture mémoire
+	LOADI (1)
+	CALL (LB) _Point_Point_entier_entier ; Appel du constructeur
+	; -> Calcul de l'adresse
+	STOREI (2)
+	; Ecriture mémoire
+	; -> Calul de l'expression
+	; Lecture mémoire
+	LOADI (1)
+	; Lecture mémoire
+	LOADI (1)
+	SUBR IADD
+	; -> Calcul de l'adresse
+	STOREI (1)
+	; Lecture mémoire
+null	LOADI (2)
+	; Lecture mémoire
+null	LOADI (2)
+	RETURN (0) 1
+
